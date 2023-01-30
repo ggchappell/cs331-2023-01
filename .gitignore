@@ -1,0 +1,5 @@
+## .gitignore for CS 331 Spring 2023
+## Glenn G. Chappell
+## 2023-01-30
+# Mac-specific files
+.DS_Store

@@ -1,5 +1,31 @@
-## .gitignore for CS 331 Spring 2023
-## Glenn G. Chappell
-## 2023-01-30
-# Mac-specific files
+### .gitignore for CS 331 Spring 2023
+### Glenn G. Chappell
+### 2023-01-30
+
+## Mac-Specific Files
+
+# Folder attributes
 .DS_Store
+
+## Vim-Related
+## From https://github.com/github/gitignore/blob/main/Global/Vim.gitignore
+## 2023-01-30
+
+# Swap
+[._]*.s[a-v][a-z]
+!*.svg  # comment out if you don't need vector files
+[._]*.sw[a-p]
+[._]s[a-rt-v][a-z]
+[._]ss[a-gi-z]
+[._]sw[a-p]
+# Session
+Session.vim
+Sessionx.vim
+# Temporary
+.netrwhist
+*~
+# Auto-generated tag files
+tags
+# Persistent undo
+[._]*.un~
+

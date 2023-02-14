@@ -1,4 +1,4 @@
--- rdparser1.lua  UNFINISHED
+-- rdparser1.lua
 -- Glenn G. Chappell
 -- 2023-02-13
 --
@@ -73,6 +73,14 @@ local function init(prog)
 end
 
 
+-- atEnd
+-- Return true if pos has reached end of input.
+-- Function init must be called before this function is called.
+local function atEnd()
+    return lexcat == 0
+end
+
+
 -- matchString
 -- Given string, see if current lexeme string form is equal to it. If
 -- so, then advance to next lexeme & return true. If not, then do not
@@ -109,6 +117,7 @@ end
 
 
 local parse_item
+local parse_thing
 
 
 -- *********************************************************************
@@ -127,9 +136,10 @@ function rdparser1.parse(prog)
 
     -- Get results from parsing
     local good = parse_item()  -- Parse start symbol
+    local done = atEnd()
 
-    -- And return
-    return good
+    -- And return them
+    return good, done
 end
 
 
@@ -153,8 +163,37 @@ end
 -- Parsing function for nonterminal "item".
 -- Function init must be called before this function is called.
 function parse_item()
-    return true  -- DUMMY
-    -- WRITE THIS!!!
+    if matchString("(") then
+        if not parse_item() then
+            return false
+        end
+        if not matchString(")") then
+            return false
+        end
+        -- We would construct an AST here
+        return true
+    elseif parse_thing() then
+        -- We would construct an AST here
+        return true
+    else
+        return false
+    end
+end
+
+
+-- parse_thing
+-- Parsing function for nonterminal "thing".
+-- Function init must be called before this function is called.
+function parse_thing()
+    if matchCat(lexer.ID) then
+        -- We would construct an AST here
+        return true
+    elseif matchString("%") then
+        -- We would construct an AST here
+        return true
+    else
+        return false
+    end
 end
 
 

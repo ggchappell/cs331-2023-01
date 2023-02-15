@@ -20,9 +20,9 @@ function check(program)
 
     local good, done = rdparser1.parse(program)
     assert(type(good) == "boolean",
-           "rdparser1.parse must return 2 boolean values")
+           "Function parse must return 2 boolean values")
     assert(type(done) == "boolean",
-           "rdparser1.parse must return 2 boolean values")
+           "Function parse must return 2 boolean values")
 
     if good then
         io.write("Syntactically correct; ")

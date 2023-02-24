@@ -151,7 +151,7 @@ check("write(a+1)")
 check("a=3 write(a+b, cr)")
 check("a[e*2+1]=2")
 check("-- Maleo Example #1\n-- Glenn G. Chappell\n"..
-      "-- 2023-02-14\nx = 3  -- Set a variable\nwrite(x, cr)\n")
+      "-- 2023-02-14\nx = 3  -- Set a variable\nwrite(x+4, cr)\n")
 io.write("### Above should be the AST given in the Assignment 4 "..
          "description,\n")
 io.write("### under 'Introduction'\n")

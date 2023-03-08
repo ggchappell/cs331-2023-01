@@ -166,10 +166,10 @@ lookInd _ [] = error "lookInd: index out of range"
 -- Improved Fibonacci function.
 fiboFast n
     | n < 0      = undefined
-    | otherwise  = a where
+    | otherwise  = a  where
         (a, b) = fiboPair n
         fiboPair 0 = (0, 1)
-        fiboPair n = (d, c+d) where
+        fiboPair n = (d, c+d)  where
             (c, d) = fiboPair (n-1)
 
 -- Try:
@@ -206,7 +206,7 @@ myMap f (x:xs) = f x : myMap f xs
 myFilter f [] = []
 myFilter f (x:xs)
     | f x        = x:rest
-    | otherwise  = rest where
+    | otherwise  = rest  where
     rest = myFilter f xs
 
 -- Try:

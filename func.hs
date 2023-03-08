@@ -47,7 +47,7 @@ slowfibo n = slowfibo (n-1) + slowfibo (n-2)
 
 -- Use "where" to introduce a block (indent!) of local definitions
 
-plus_minus_times a b c d = a_plus_b * c_minus_d where
+plus_minus_times a b c d = a_plus_b * c_minus_d  where
     a_plus_b = a + b
     c_minus_d = c - d
 
@@ -59,12 +59,12 @@ plus_minus_times a b c d = a_plus_b * c_minus_d where
 
 -- We can nest blocks
 
-twicefactorial n = twice (factorial n) where
-    twice k = two*k where
-        two = one + one where
+twicefactorial n = twice (factorial n)  where
+    twice k = two*k  where
+        two = one + one  where
             one = 1
     factorial 0 = 1
-    factorial curr = curr * factorial prev where
+    factorial curr = curr * factorial prev  where
         prev = curr-1
 
 

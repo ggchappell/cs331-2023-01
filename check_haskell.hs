@@ -20,7 +20,7 @@ main = do
 
 -- secret_message
 -- A mysterious message.
-secret_message = map xk xj where
+secret_message = map xk xj  where
     xa = [64,33,-71,52,-19,11]
     xb = [5,-59,81,0,-5,-15,-71,82]
     xc = [-7,-81,66,12,-11,3,-5,-77]

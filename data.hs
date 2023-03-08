@@ -73,7 +73,7 @@ productToString (Pr pn mn) = pn ++ " [made by " ++ mn ++ "]"
 -- Product, we make Product an instance of Eq. When we do so, we define
 -- the == operator.
 
-instance Eq Product where
+instance Eq Product  where
     Pr pn1 mn1 == Pr pn2 mn2 = (pn1 == pn2) && (mn1 == mn2)
 
 -- Try:
@@ -94,7 +94,7 @@ instance Eq Product where
 -- Function "show", which does conversion to String, is overloaded using
 -- type class Show.
 
-instance Show Product where
+instance Show Product  where
     show (Pr pn mn) = pn ++ " [made by " ++ mn ++ "]"
 
 -- Try:

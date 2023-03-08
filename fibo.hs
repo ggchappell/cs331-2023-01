@@ -16,14 +16,14 @@ module Main where
 -- Given n >= 0, return a pair of Fibonacci numbers: (F(n), F(n+1)).
 -- Used by fibo.
 fibopair 0 = (0, 1)
-fibopair n = (nextfib, currfib+nextfib) where
+fibopair n = (nextfib, currfib+nextfib)  where
     (currfib, nextfib) = fibopair (n-1)
 
 
 -- fibo
 -- Given n >= 0, return Fibonacci number F(n).
 -- Uses fibopair.
-fibo n = currfib where
+fibo n = currfib  where
     (currfib, nextfib) = fibopair n
 
 

@@ -251,7 +251,7 @@ myFilter _ [] = []
 myFilter p (x:xs) =
     if (p x)
         then x:rest
-        else rest where
+        else rest  where
             rest = myFilter p xs
 
 -- Try:

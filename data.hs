@@ -1,9 +1,10 @@
--- data.hs  UNFINISHED
+-- data.hs
 -- Glenn G. Chappell
--- 2023-03-06
+-- Started: 2023-03-06
+-- Updated: 2023-03-08
 --
 -- For CS 331 Spring 2023
--- Code from 3/6 - Haskell: Data
+-- Code from 3/6 & 3/8 - Haskell: Data
 
 module Main where
 
@@ -12,7 +13,7 @@ import System.IO  -- for hFlush, stdout
 
 main = do
     putStrLn ""
-    putStrLn "This file contains sample code from March 6, 2023,"
+    putStrLn "This file contains sample code from March 6 & 8, 2023,"
     putStrLn "for the topic \"Haskell: Data\"."
     putStrLn "It will execute, but it is not intended to do anything"
     putStrLn "useful. See the source."
@@ -104,5 +105,130 @@ instance Show Product  where
 --   (show dove_soap) ++ " is not soap; it is a *beauty bar*."
 
 
--- ####################  MORE TO COME!  ####################
+-- ***** Options & Parametrization *****
+
+
+-- In a data declaration, we can separate options with a vertical bar
+-- (|). For example, if Haskell did not have type Bool, then we could
+-- define it ourselves, as follows.
+
+-- data Bool = True | False
+
+-- A data declaration can be *parametrized*. The result is something
+-- like a C++ class template: we can make a type using another type. For
+-- example, if Haskell did not have Maybe, then we could define it
+-- ourselves, as follows.
+
+-- data Maybe t = Just t | Nothing
+
+-- Here is an example use of Maybe.
+
+(@/) :: Double -> Double -> Maybe Double
+x @/ y
+   | y == 0.0   = Nothing
+   | otherwise  = Just (x / y)
+
+-- Try:
+--   3 @/ 2
+--   3 @/ 0
+
+-- Putting these ideas together, we can define a Binary Tree.
+-- Below, vt is the value type.
+
+data BT vt = BTEmpty | BTNode vt (BT vt) (BT vt)
+-- Values given to BTNode:
+-- - Value in node
+-- - Left subtree
+-- - Right subtree
+
+-- Here are some simple functions using BT.
+
+isEmptyBT :: BT a -> Bool
+isEmptyBT BTEmpty = True
+isEmptyBT (BTNode _ _ _) = False
+
+rootValue :: BT a -> a
+rootValue BTEmpty = error "rootValue: given BT is empty"
+rootValue (BTNode v _ _) = v
+
+leftSubtree :: BT a -> BT a
+leftSubtree BTEmpty = error "leftSubtree: given BT is empty"
+leftSubtree (BTNode _ lsub _) = lsub
+
+rightSubtree :: BT a -> BT a
+rightSubtree BTEmpty = error "rightSubtree: given BT is empty"
+rightSubtree (BTNode _ _ rsub) = rsub
+
+-- Try:
+--   t1 = BTNode "Yo!" BTEmpty BTEmpty
+--   t2 = BTEmpty
+--   isEmptyBT t1
+--   isEmptyBT t2
+--   rootValue t1
+--   rootValue t2
+
+
+-- ***** Treesort *****
+
+
+-- *Treesort* is a comparison sort that proceeds as follows: given a
+-- list, bstInsert each item into a Binary Search Tree. Then traverse
+-- the tree (inorder) to get the final sorted list.
+
+-- We can implement Treesort using our Binary Tree.
+
+-- Note that Treesort has some efficiency problems. And our
+-- implementation is rather inefficient -- even for Treesort. So
+-- function "treesort" (below) is not really practical. But it is, I
+-- think, an instructive example. (Also, it works.)
+
+-- bstInsert
+-- Given a Binary Search Tree (represented as type "BT vt",
+-- where vt is the value type) and an item, return the Binary Search
+-- Tree with the item inserted.
+--
+-- In a type annotation, we must require that vt is in type class Ord,
+-- since we compare is using the < operator.
+bstInsert :: Ord vt => BT vt -> vt -> BT vt
+bstInsert BTEmpty x = BTNode x BTEmpty BTEmpty
+bstInsert (BTNode root lsub rsub) x
+    | x < root   = BTNode root (bstInsert lsub x) rsub
+    | otherwise  = BTNode root lsub (bstInsert rsub x)
+
+-- inorderTraverse
+-- Given a Binary Tree, return a list of its items, in the order given
+-- by an inorder traversal.
+--
+-- Note that, for a Binary Search Tree, an inorder traversal will be
+-- sorted.
+inorderTraverse :: BT vt -> [vt]
+inorderTraverse BTEmpty = []
+inorderTraverse (BTNode root lsub rsub) =
+    inorderTraverse lsub ++ [root] ++ inorderTraverse rsub
+
+-- Now we can write Treesort. A key realization is that, given function
+-- "bstInsert" (above), which inserts a single item into a Binary Search
+-- Tree, we can insert a list of items using a fold operation.
+-- Specifically, given a list xs, a Binary Search Tree containing all
+-- items in xs is given by the following.
+--   foldl bstInsert BTEmpty xs
+
+-- treesort
+-- Return a sorted version of the given list. The sort is stable. The
+-- Treesort algorithm is used.
+treesort :: Ord vt => [vt] -> [vt]
+treesort xs = inorderTraverse $ foldl bstInsert BTEmpty xs
+
+-- Try:
+--   treesort []
+--   treesort [5,4,3,2,1,2,3,4,5,4,3,2,1]
+--   treesort ["elk","pig","dog","yak","rat","cow","ape","cat","bat"]
+--   treesort ([1,3..100000] ++ [2,4..100000])
+
+-- The last line above illustrates the efficiency troubles with function
+-- treesort. In contrast, check out the following.
+
+-- Try:
+--   import Data.List
+--   sort ([1,3..100000] ++ [2,4..100000])
 
